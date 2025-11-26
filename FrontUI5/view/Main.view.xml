@@ -5,6 +5,8 @@
   xmlns:form="sap.ui.layout.form"
   xmlns:core="sap.ui.core"
   xmlns:t="sap.ui.table"
+  xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+  xmlns:u="sap.ui.unified"
   displayBlock="true">
   <App>
     <Page title="Administração de Combos" class="appContainer" showHeader="true">
@@ -35,16 +37,16 @@
 
                   <Label text="Tipo Combo"/>
                   <HBox>
-                    <CheckBox text="Histórico" selected="{/combo/cab/tpHist}"/>
-                    <CheckBox text="Por pedido" selected="{/combo/cab/tpPed}" class="sapUiSmallMarginBegin"/>
-                    <CheckBox text="Por NFe" selected="{/combo/cab/tpNfe}" class="sapUiSmallMarginBegin"/>
+                    <CheckBox text="Histórico" selected="{/combo/cab/tpHist}" select=".onTpComboSel" data:tipo="tpHist"/>
+                    <CheckBox text="Por pedido" selected="{/combo/cab/tpPed}" class="sapUiSmallMarginBegin" select=".onTpComboSel" data:tipo="tpPed"/>
+                    <CheckBox text="Por NFe" selected="{/combo/cab/tpNfe}" class="sapUiSmallMarginBegin" select=".onTpComboSel" data:tipo="tpNfe"/>
                   </HBox>
 
                   <Label text="Resumo"/>
                   <TextArea value="{/combo/cab/resum}" rows="5" growing="true"/>
 
                   <Label text="Anexo"/>
-                  <Input value="{/combo/cab/anexo}" placeholder="URL ou referência"/>
+                  <u:FileUploader id="fuAnexo" name="anexo" placeholder="Selecione um arquivo" change=".onAnexoChange" buttonText="Procurar" width="100%"/>
 
                   <Label text="Exp.AFV"/>
                   <CheckBox text="Sim" selected="{/combo/cab/expAfv}"/>
@@ -227,7 +229,7 @@
                 <Toolbar class="sapUiMediumMarginTop">
                   <Text text="Importar Requisitos"/>
                   <ToolbarSpacer/>
-                  <Input width="50%" value="{/combo/req/impStr}" placeholder="Cole aqui os requisitos para importação"/>
+                  <u:FileUploader id="fuReqImp" name="reqImport" placeholder="Selecione um arquivo" change=".onReqImpChange" buttonText="Procurar" width="50%"/>
                 </Toolbar>
               </VBox>
             </IconTabFilter>
@@ -258,8 +260,8 @@
 
                     <Label text="Aplicação do Benefício"/>
                     <HBox>
-                      <CheckBox id="chkAplNf" text="NF" selected="{/combo/ben/aplNf}" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }"/>
-                      <CheckBox id="chkAplBol" text="Boleto" selected="{/combo/ben/aplBol}" class="sapUiSmallMarginBegin" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }"/>
+                      <CheckBox id="chkAplNf" text="NF" selected="{/combo/ben/aplNf}" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }" select=".onAplBenSel" data:tipo="aplNf"/>
+                      <CheckBox id="chkAplBol" text="Boleto" selected="{/combo/ben/aplBol}" class="sapUiSmallMarginBegin" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }" select=".onAplBenSel" data:tipo="aplBol"/>
                     </HBox>
 
                     <Label text="Limite Vezes Benefício"/>
