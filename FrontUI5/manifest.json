@@ -1,49 +1,52 @@
 {
-  "_version": "1.12.0",
-  "sap.app": {
-    "id": "promos",
-    "type": "application",
-    "title": "Administração de Combos",
-    "applicationVersion": {
-      "version": "1.0.0"
-    }
-  },
-  "sap.ui": {
-    "technology": "UI5",
-    "deviceTypes": {
-      "desktop": true,
-      "tablet": true,
-      "phone": true
-    }
-  },
-  "sap.ui5": {
-    "dependencies": {
-      "minUI5Version": "1.120.0",
-      "libs": {
-        "sap.m": {},
-        "sap.ui.layout": {}
-      }
-    },
-    "contentDensities": {
-      "compact": true,
-      "cozy": true
-    },
-    "rootView": {
-      "viewName": "promos.view.Main",
-      "type": "XML",
-      "async": true,
-      "id": "Main"
-    },
-    "models": {},
-    "resources": {
-      "css": [
-        {
-          "uri": "css/style.css"
+    "_version": "1.12.0",
+    "sap.app": {
+        "id": "promos",
+        "type": "application",
+        "title": "Administração de Combos",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "sourceTemplate": {
+            "id": "@sap/ux-app-migrator:freestyle",
+            "version": "1.19.5",
+            "toolsId": "b2dfa612-361e-400a-8c82-8f1a383219be"
         }
-      ]
     },
-    "routing": {}
-  }
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "dependencies": {
+            "minUI5Version": "1.120.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.layout": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "rootView": {
+            "viewName": "promos.view.Main",
+            "type": "XML",
+            "async": true,
+            "id": "Main"
+        },
+        "models": {},
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "routing": {}
+    }
 }
-
-
