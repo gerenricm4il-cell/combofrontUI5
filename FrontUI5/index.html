@@ -1,27 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Administração de Combos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script id="sap-ui-bootstrap"
-          src="https://sdk.openui5.org/resources/sap-ui-core.js"
-          data-sap-ui-theme="sap_fiori_3"
-          data-sap-ui-async="true"
-          data-sap-ui-onInit="module:sap/ui/core/ComponentSupport"
-          data-sap-ui-resourceroots='{"promos": "./"}'
-          data-sap-ui-compatVersion="edge"
-          data-sap-ui-xx-waitForTheme="true"
-          data-sap-ui-libs="sap.m,sap.ui.layout,sap.ui.table">
-  </script>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title></title>
+	<style>
+		html, body, body > div, #container, #container-uiarea {
+			height: 100%;
+		}
+	</style>
+	<script
+			id="sap-ui-bootstrap"
+			src="resources/sap-ui-core.js"
+			data-sap-ui-theme="sap_horizon"
+			data-sap-ui-resourceroots='{
+            "promos": "."
+        }'
+			data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
+			data-sap-ui-compatVersion="edge"
+			data-sap-ui-async="true"
+			data-sap-ui-preload="async"
+			data-sap-ui-libs="sap.m">
+	</script>
 </head>
-<body class="sapUiBody">
-  <div data-sap-ui-component
-       data-name="promos"
-       data-id="promos"
-       data-settings="{}">
-  </div>
+<body class="sapUiBody sapUiSizeCompact" id="content">
+<div data-sap-ui-component data-name="promos" data-id="container" data-settings='{"id" : "promos"}' data-handle-validation="true"></div>
 </body>
 </html>
-
-
