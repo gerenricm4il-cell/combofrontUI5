@@ -20,6 +20,45 @@ sap.ui.define([
       oModel.refresh(true);
     },
 
+    onAnexoChange: function (oEvent) {
+      var sFile = oEvent.getParameter("newValue");
+      var oModel = this.getOwnerComponent().getModel();
+      oModel.setProperty("/combo/cab/anexo", sFile);
+      if (sFile) {
+        MessageToast.show("Arquivo selecionado: " + sFile);
+      }
+    },
+
+    onReqImpChange: function (oEvent) {
+      var sFile = oEvent.getParameter("newValue");
+      var oModel = this.getOwnerComponent().getModel();
+      oModel.setProperty("/combo/req/impStr", sFile);
+      if (sFile) {
+        MessageToast.show("Arquivo selecionado: " + sFile);
+      }
+    },
+
+    onTpComboSel: function (oEvent) {
+      var oModel = this.getOwnerComponent().getModel();
+      var bSel = oEvent.getParameter("selected");
+      var sTipo = oEvent.getSource().data("tipo");
+      if (bSel) {
+        oModel.setProperty("/combo/cab/tpHist", sTipo === "tpHist");
+        oModel.setProperty("/combo/cab/tpPed", sTipo === "tpPed");
+        oModel.setProperty("/combo/cab/tpNfe", sTipo === "tpNfe");
+      }
+    },
+
+    onAplBenSel: function (oEvent) {
+      var oModel = this.getOwnerComponent().getModel();
+      var bSel = oEvent.getParameter("selected");
+      var sTipo = oEvent.getSource().data("tipo");
+      if (bSel) {
+        oModel.setProperty("/combo/ben/aplNf", sTipo === "aplNf");
+        oModel.setProperty("/combo/ben/aplBol", sTipo === "aplBol");
+      }
+    },
+
     onReqTipoChange: function (oEvent) {
       var oModel = this.getOwnerComponent().getModel();
       var sTipo = oEvent.getParameter("selectedItem").getKey();
