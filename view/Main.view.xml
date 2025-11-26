@@ -1,0 +1,318 @@
+<mvc:View
+  controllerName="promos.controller.Main"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:form="sap.ui.layout.form"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+  xmlns:u="sap.ui.unified"
+  displayBlock="true">
+  <App>
+    <Page title="Administração de Combos" class="appContainer" showHeader="true">
+      <content>
+        <IconTabBar expandable="false">
+          <items>
+            <IconTabFilter text="Cabeçalho" key="cab">
+              <form:SimpleForm
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="3" emptySpanL="3" emptySpanM="3" emptySpanS="0"
+                columnsXL="2" columnsL="2" columnsM="1">
+                <form:content>
+                  <Label text="Código"/>
+                  <Input value="{/combo/cab/cod}"/>
+
+                  <Label text="Descrição"/>
+                  <Input value="{/combo/cab/desc}"/>
+
+                  <Label text="Validade"/>
+                  <HBox>
+                    <DatePicker value="{/combo/cab/dtIni}" displayFormat="short"/>
+                    <Text text="  até  " />
+                    <DatePicker value="{/combo/cab/dtFim}" displayFormat="short"/>
+                  </HBox>
+
+                  <Label text="Tipo Combo"/>
+                  <HBox>
+                    <CheckBox text="Histórico" selected="{/combo/cab/tpHist}" select=".onTpComboSel" data:tipo="tpHist"/>
+                    <CheckBox text="Por pedido" selected="{/combo/cab/tpPed}" class="sapUiSmallMarginBegin" select=".onTpComboSel" data:tipo="tpPed"/>
+                    <CheckBox text="Por NFe" selected="{/combo/cab/tpNfe}" class="sapUiSmallMarginBegin" select=".onTpComboSel" data:tipo="tpNfe"/>
+                  </HBox>
+
+                  <Label text="Resumo"/>
+                  <TextArea value="{/combo/cab/resum}" rows="5" growing="true"/>
+
+                  <Label text="Anexo"/>
+                  <u:FileUploader id="fuAnexo" name="anexo" placeholder="Selecione um arquivo" change=".onAnexoChange" buttonText="Procurar" width="100%"/>
+
+                  <Label text="Exp.AFV"/>
+                  <CheckBox text="Sim" selected="{/combo/cab/expAfv}"/>
+
+                  <Label text="Exp.e-Commerce"/>
+                  <CheckBox text="Sim" selected="{/combo/cab/expEcom}"/>
+
+                  <Label text="Exp.Progr.Pontos"/>
+                  <CheckBox text="Sim" selected="{/combo/cab/expPont}"/>
+                </form:content>
+              </form:SimpleForm>
+            </IconTabFilter>
+
+            <IconTabFilter text="Permissão" key="perm">
+              <VBox>
+                <Toolbar>
+                  <Title text="Permissões"/>
+                  <ToolbarSpacer/>
+                  <Button icon="sap-icon://add" tooltip="Adicionar linha" type="Transparent" press=".onAddPermItem"/>
+                  <Button icon="sap-icon://delete" tooltip="Excluir selecionados" type="Transparent" press=".onDelPermItem"/>
+                </Toolbar>
+                <t:Table
+                  id="tblPerm"
+                  class="alvGrid"
+                  rows="{/combo/perm/itens}"
+                  selectionMode="MultiToggle"
+                  visibleRowCount="6"
+                  enableCellFilter="true"
+                  rowHeight="32">
+                  <t:columns>
+                    <t:Column width="90px"><Label text="Org.Vendas"/><t:template><Input value="{org}"/></t:template></t:Column>
+                    <t:Column width="70px"><Label text="Canal"/><t:template><Input value="{can}"/></t:template></t:Column>
+                    <t:Column width="50px"><Label text="UF"/><t:template><Input value="{uf}"/></t:template></t:Column>
+                    <t:Column width="90px"><Label text="Cidade"/><t:template><Input value="{cid}"/></t:template></t:Column>
+                    <t:Column width="70px"><Label text="Centro"/><t:template><Input value="{cen}"/></t:template></t:Column>
+                    <t:Column width="80px"><Label text="Regional"/><t:template><Input value="{reg}"/></t:template></t:Column>
+                    <t:Column width="70px"><Label text="Equipe"/><t:template><Input value="{eqp}"/></t:template></t:Column>
+                    <t:Column width="80px"><Label text="Vendedor"/><t:template><Input value="{vend}"/></t:template></t:Column>
+                    <t:Column width="90px"><Label text="Grp.Clientes"/><t:template><Input value="{grp}"/></t:template></t:Column>
+                    <t:Column width="100px"><Label text="Agrup.Clientes"/><t:template><Input value="{agr}"/></t:template></t:Column>
+                  </t:columns>
+                </t:Table>
+
+                <Toolbar class="sapUiMediumMarginTop">
+                  <Title text="Exclusões"/>
+                  <ToolbarSpacer/>
+                  <Button icon="sap-icon://add" tooltip="Adicionar linha" type="Transparent" press=".onAddExcItem"/>
+                  <Button icon="sap-icon://delete" tooltip="Excluir selecionados" type="Transparent" press=".onDelExcItem"/>
+                </Toolbar>
+                <t:Table
+                  id="tblExc"
+                  class="alvGrid"
+                  rows="{/combo/perm/excs}"
+                  selectionMode="MultiToggle"
+                  visibleRowCount="5"
+                  enableCellFilter="true"
+                  rowHeight="32">
+                  <t:columns>
+                    <t:Column width="120px"><Label text="Vendedor"/><t:template><Input value="{vend}"/></t:template></t:Column>
+                    <t:Column width="140px"><Label text="Agrup.Clientes"/><t:template><Input value="{agr}"/></t:template></t:Column>
+                    <t:Column width="140px"><Label text="Cliente"/><t:template><Input value="{cli}"/></t:template></t:Column>
+                  </t:columns>
+                </t:Table>
+              </VBox>
+            </IconTabFilter>
+
+            <IconTabFilter text="Requisitos" key="req">
+              <VBox>
+                <Title text="Requisitos Gerais"/>
+                <form:SimpleForm
+                  editable="true"
+                  layout="ResponsiveGridLayout"
+                  labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                  columnsXL="2" columnsL="2" columnsM="1">
+                  <form:content>
+                    <Label text="Quantidade"/>
+                    <HBox>
+                      <Input width="7rem" value="{/combo/req/gerais/qtdMin}" type="Number"/>
+                      <Text text="  até  " />
+                      <Input width="7rem" value="{/combo/req/gerais/qtdMax}" type="Number"/>
+                    </HBox>
+
+                    <Label text="Valor"/>
+                    <HBox>
+                      <Input width="7rem" value="{/combo/req/gerais/vlrMin}" type="Number"/>
+                      <Text text="  até  " />
+                      <Input width="7rem" value="{/combo/req/gerais/vlrMax}" type="Number"/>
+                    </HBox>
+
+                    <Label text="Mix"/>
+                    <Input value="{/combo/req/gerais/mix}"/>
+
+                    <Label text="Combo Tipo Casadinha"/>
+                    <CheckBox text="Sim" selected="{/combo/req/gerais/casad}"/>
+                  </form:content>
+                </form:SimpleForm>
+
+                <HBox class="sapUiMediumMarginTop" alignItems="Start" renderType="Bare">
+                  <VBox width="65%">
+                    <Toolbar>
+                      <Title text="Requisitos Específicos"/>
+                      <ToolbarSpacer/>
+                      <Button icon="sap-icon://add" tooltip="Adicionar" type="Transparent" press=".onAddReqEspec"/>
+                      <Button icon="sap-icon://delete" tooltip="Excluir selecionados" type="Transparent" press=".onDelReqEspec"/>
+                    </Toolbar>
+                    <form:SimpleForm
+                      editable="true"
+                      layout="ResponsiveGridLayout"
+                      labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                      columnsXL="2" columnsL="2" columnsM="1">
+                      <form:content>
+                        <Label text="Tipo"/>
+                        <Select id="selReqTipo" selectedKey="{/combo/req/draft/tipo}" change=".onReqTipoChange">
+                          <items>
+                            <core:Item key="Material" text="Material"/>
+                            <core:Item key="Agrup.Material" text="Agrup.Material"/>
+                            <core:Item key="Combo" text="Combo"/>
+                          </items>
+                        </Select>
+
+                        <Label text="Descrição"/>
+                        <Input value="{/combo/req/draft/desc}"/>
+
+                        <Label text="Qtd.Mínima / Máxima"/>
+                        <HBox>
+                          <Input width="7rem" value="{/combo/req/draft/qMin}" type="Number"/>
+                          <Text text="  até  " />
+                          <Input id="inpReqQMax" width="7rem" value="{/combo/req/draft/qMax}" type="Number" enabled="{= ${/combo/req/draft/tipo} !== 'Combo' }"/>
+                        </HBox>
+
+                        <Label text="Valor Mínimo / Máximo"/>
+                        <HBox>
+                          <Input width="7rem" value="{/combo/req/draft/vMin}" type="Number"/>
+                          <Text text="  até  " />
+                          <Input id="inpReqVMax" width="7rem" value="{/combo/req/draft/vMax}" type="Number" enabled="{= ${/combo/req/draft/tipo} !== 'Combo' }"/>
+                        </HBox>
+                      </form:content>
+                    </form:SimpleForm>
+
+                    <t:Table
+                      id="tblReqEspec"
+                      class="alvGrid sapUiSmallMarginTop"
+                      rows="{/combo/req/especs}"
+                      selectionMode="MultiToggle"
+                      visibleRowCount="4"
+                      rowHeight="32">
+                      <t:columns>
+                        <t:Column width="100px"><Label text="Tipo"/><t:template><Input value="{tipo}"/></t:template></t:Column>
+                        <t:Column><Label text="Descrição"/><t:template><Input value="{desc}"/></t:template></t:Column>
+                        <t:Column width="80px" hAlign="End"><Label text="Qtd.Min"/><t:template><Input value="{qMin}" type="Number"/></t:template></t:Column>
+                        <t:Column width="80px" hAlign="End"><Label text="Qtd.Max"/><t:template><Input value="{qMax}" type="Number"/></t:template></t:Column>
+                        <t:Column width="80px" hAlign="End"><Label text="Vlr.Min"/><t:template><Input value="{vMin}" type="Number"/></t:template></t:Column>
+                        <t:Column width="80px" hAlign="End"><Label text="Vlr.Max"/><t:template><Input value="{vMax}" type="Number"/></t:template></t:Column>
+                      </t:columns>
+                    </t:Table>
+                  </VBox>
+
+                  <VBox width="35%" class="sapUiSmallMarginBegin">
+                    <Toolbar>
+                      <Title text="Materiais"/>
+                      <ToolbarSpacer/>
+                      <Button icon="sap-icon://add" tooltip="Adicionar" type="Transparent" press=".onAddMatSel"/>
+                      <Button icon="sap-icon://delete" tooltip="Excluir selecionados" type="Transparent" press=".onDelMatSel"/>
+                    </Toolbar>
+                    <t:Table
+                      id="tblMatSel"
+                      class="alvGrid"
+                      rows="{/combo/req/matSel}"
+                      selectionMode="MultiToggle"
+                      visibleRowCount="6"
+                      rowHeight="32">
+                      <t:columns>
+                        <t:Column width="100px"><Label text="Código"/><t:template><Input value="{cod}"/></t:template></t:Column>
+                        <t:Column><Label text="Materiais"/><t:template><Input value="{mat}"/></t:template></t:Column>
+                      </t:columns>
+                    </t:Table>
+                  </VBox>
+                </HBox>
+
+                <Toolbar class="sapUiMediumMarginTop">
+                  <Text text="Importar Requisitos"/>
+                  <ToolbarSpacer/>
+                  <u:FileUploader id="fuReqImp" name="reqImport" placeholder="Selecione um arquivo" change=".onReqImpChange" buttonText="Procurar" width="50%"/>
+                </Toolbar>
+              </VBox>
+            </IconTabFilter>
+
+            <IconTabFilter text="Benefícios" key="ben">
+              <VBox>
+                <form:SimpleForm
+                  editable="true"
+                  layout="ResponsiveGridLayout"
+                  labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                  columnsXL="2" columnsL="2" columnsM="1">
+                  <form:content>
+                    <Label text="Tipo Benefício"/>
+                    <Select id="selBenTipo" selectedKey="{/combo/ben/tipo}" change=".onBenTipoChange">
+                      <items>
+                        <core:Item key="Bonificação" text="Bonificação"/>
+                        <core:Item key="Desconto Percentual" text="Desconto Percentual"/>
+                        <core:Item key="Desconto Absoluto" text="Desconto Absoluto"/>
+                        <core:Item key="Cashback Percentual" text="Cashback Percentual"/>
+                        <core:Item key="Cashback Absoluto" text="Cashback Absoluto"/>
+                        <core:Item key="Unicoins" text="Unicoins"/>
+                        <core:Item key="Prazo Extra" text="Prazo Extra"/>
+                      </items>
+                    </Select>
+
+                    <Label text="Benefício Múltiplo"/>
+                    <Switch id="swBenMult" state="{/combo/ben/mult}" change=".onBenMultChange" enabled="{= ${/combo/ben/tipo} !== 'Prazo Extra' }"/>
+
+                    <Label text="Aplicação do Benefício"/>
+                    <HBox>
+                      <CheckBox id="chkAplNf" text="NF" selected="{/combo/ben/aplNf}" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }" select=".onAplBenSel" data:tipo="aplNf"/>
+                      <CheckBox id="chkAplBol" text="Boleto" selected="{/combo/ben/aplBol}" class="sapUiSmallMarginBegin" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }" select=".onAplBenSel" data:tipo="aplBol"/>
+                    </HBox>
+
+                    <Label text="Limite Vezes Benefício"/>
+                    <Input id="inpLimVez" value="{/combo/ben/limVez}" type="Number" change=".onLimVezChange" enabled="{= ${/combo/ben/tipo} !== 'Prazo Extra' &amp;&amp; ${/combo/ben/tipo} !== 'Desconto Percentual' &amp;&amp; ${/combo/ben/tipo} !== 'Desconto Absoluto' &amp;&amp; !(${/combo/ben/tipo} === 'Bonificação' &amp;&amp; ${/combo/ben/limMax} !== null &amp;&amp; ${/combo/ben/limMax} !== '') }"/>
+
+                    <Label text="Limite Máximo"/>
+                    <Input id="inpLimMax" value="{/combo/ben/limMax}" type="Number" change=".onLimMaxChange" enabled="{= !(${/combo/cab/tpPed} === true &amp;&amp; ${/combo/ben/tipo} === 'Bonificação' &amp;&amp; ${/combo/ben/mult} === false) &amp;&amp; !(${/combo/ben/tipo} === 'Bonificação' &amp;&amp; ${/combo/ben/limVez} !== null &amp;&amp; ${/combo/ben/limVez} !== '') }"/>
+
+                    <Label text="Tipo Aplic.Beneficio"/>
+                    <Select selectedKey="{/combo/ben/tipoApl}">
+                      <items>
+                        <core:Item key="Por Material" text="Por Material"/>
+                        <core:Item key="Por Agrup.Material" text="Por Agrup.Material"/>
+                        <core:Item key="Por Fornecedor" text="Por Fornecedor"/>
+                      </items>
+                    </Select>
+                  </form:content>
+                </form:SimpleForm>
+
+                <Toolbar class="sapUiMediumMarginTop">
+                  <Title text="Itens do Benefício"/>
+                  <ToolbarSpacer/>
+                  <Button icon="sap-icon://add" tooltip="Adicionar" type="Transparent" press=".onAddBenItem"/>
+                  <Button icon="sap-icon://delete" tooltip="Excluir selecionados" type="Transparent" press=".onDelBenItem"/>
+                </Toolbar>
+                <t:Table
+                  id="tblBenItens"
+                  class="alvGrid"
+                  rows="{/combo/ben/itens}"
+                  selectionMode="MultiToggle"
+                  visibleRowCount="5"
+                  rowHeight="32">
+                  <t:columns>
+                    <t:Column width="120px"><Label text="Código"/><t:template><Input value="{cod}"/></t:template></t:Column>
+                    <t:Column><Label text="Materiais"/><t:template><Input value="{mat}"/></t:template></t:Column>
+                    <t:Column width="100px" hAlign="End"><Label text="Desconto"/><t:template><Input value="{desc}" type="Number"/></t:template></t:Column>
+                  </t:columns>
+                </t:Table>
+              </VBox>
+            </IconTabFilter>
+          </items>
+        </IconTabBar>
+
+        <Toolbar class="sapUiLargeMarginTop">
+          <ToolbarSpacer/>
+          <Button text="Limpar" type="Transparent" press=".onClear"/>
+          <Button text="Salvar" type="Emphasized" press=".onSave"/>
+        </Toolbar>
+      </content>
+    </Page>
+  </App>
+</mvc:View>
+
+
