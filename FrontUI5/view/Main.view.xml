@@ -157,13 +157,11 @@
                       columnsXL="2" columnsL="2" columnsM="1">
                       <form:content>
                         <Label text="Tipo"/>
-                        <Select selectedKey="{/combo/req/draft/tipo}">
+                        <Select id="selReqTipo" selectedKey="{/combo/req/draft/tipo}" change=".onReqTipoChange">
                           <items>
-                            <core:Item key="Marca" text="Marca"/>
-                            <core:Item key="Linha" text="Linha"/>
-                            <core:Item key="Categoria" text="Categoria"/>
                             <core:Item key="Material" text="Material"/>
-                            <core:Item key="Fornecedor" text="Fornecedor"/>
+                            <core:Item key="Agrup.Material" text="Agrup.Material"/>
+                            <core:Item key="Combo" text="Combo"/>
                           </items>
                         </Select>
 
@@ -174,14 +172,14 @@
                         <HBox>
                           <Input width="7rem" value="{/combo/req/draft/qMin}" type="Number"/>
                           <Text text="  até  " />
-                          <Input width="7rem" value="{/combo/req/draft/qMax}" type="Number"/>
+                          <Input id="inpReqQMax" width="7rem" value="{/combo/req/draft/qMax}" type="Number" enabled="{= ${/combo/req/draft/tipo} !== 'Combo' }"/>
                         </HBox>
 
                         <Label text="Valor Mínimo / Máximo"/>
                         <HBox>
                           <Input width="7rem" value="{/combo/req/draft/vMin}" type="Number"/>
                           <Text text="  até  " />
-                          <Input width="7rem" value="{/combo/req/draft/vMax}" type="Number"/>
+                          <Input id="inpReqVMax" width="7rem" value="{/combo/req/draft/vMax}" type="Number" enabled="{= ${/combo/req/draft/tipo} !== 'Combo' }"/>
                         </HBox>
                       </form:content>
                     </form:SimpleForm>
@@ -243,7 +241,7 @@
                   columnsXL="2" columnsL="2" columnsM="1">
                   <form:content>
                     <Label text="Tipo Benefício"/>
-                    <Select selectedKey="{/combo/ben/tipo}">
+                    <Select id="selBenTipo" selectedKey="{/combo/ben/tipo}" change=".onBenTipoChange">
                       <items>
                         <core:Item key="Bonificação" text="Bonificação"/>
                         <core:Item key="Desconto Percentual" text="Desconto Percentual"/>
@@ -256,19 +254,19 @@
                     </Select>
 
                     <Label text="Benefício Múltiplo"/>
-                    <Switch state="{/combo/ben/mult}" />
+                    <Switch id="swBenMult" state="{/combo/ben/mult}" change=".onBenMultChange" enabled="{= ${/combo/ben/tipo} !== 'Prazo Extra' }"/>
 
                     <Label text="Aplicação do Benefício"/>
                     <HBox>
-                      <CheckBox text="NF" selected="{/combo/ben/aplNf}"/>
-                      <CheckBox text="Boleto" selected="{/combo/ben/aplBol}" class="sapUiSmallMarginBegin"/>
+                      <CheckBox id="chkAplNf" text="NF" selected="{/combo/ben/aplNf}" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }"/>
+                      <CheckBox id="chkAplBol" text="Boleto" selected="{/combo/ben/aplBol}" class="sapUiSmallMarginBegin" enabled="{= ${/combo/ben/tipo} === 'Desconto Percentual' || ${/combo/ben/tipo} === 'Desconto Absoluto' }"/>
                     </HBox>
 
                     <Label text="Limite Vezes Benefício"/>
-                    <Input value="{/combo/ben/limVez}" type="Number"/>
+                    <Input id="inpLimVez" value="{/combo/ben/limVez}" type="Number" change=".onLimVezChange" enabled="{= ${/combo/ben/tipo} !== 'Prazo Extra' &amp;&amp; ${/combo/ben/tipo} !== 'Desconto Percentual' &amp;&amp; ${/combo/ben/tipo} !== 'Desconto Absoluto' &amp;&amp; !(${/combo/ben/tipo} === 'Bonificação' &amp;&amp; ${/combo/ben/limMax} !== null &amp;&amp; ${/combo/ben/limMax} !== '') }"/>
 
                     <Label text="Limite Máximo"/>
-                    <Input value="{/combo/ben/limMax}" type="Number"/>
+                    <Input id="inpLimMax" value="{/combo/ben/limMax}" type="Number" change=".onLimMaxChange" enabled="{= !(${/combo/cab/tpPed} === true &amp;&amp; ${/combo/ben/tipo} === 'Bonificação' &amp;&amp; ${/combo/ben/mult} === false) &amp;&amp; !(${/combo/ben/tipo} === 'Bonificação' &amp;&amp; ${/combo/ben/limVez} !== null &amp;&amp; ${/combo/ben/limVez} !== '') }"/>
 
                     <Label text="Tipo Aplic.Beneficio"/>
                     <Select selectedKey="{/combo/ben/tipoApl}">
