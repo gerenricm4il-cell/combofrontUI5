@@ -10,7 +10,65 @@ sap.ui.define([
   }
 
   return Controller.extend("promos.controller.Main", {
-    onInit: function () {},
+    onInit: function () {
+      var oModel = this.getOwnerComponent().getModel();
+      oModel.attachPropertyChange(this._onModelChange.bind(this));
+    },
+
+    _onModelChange: function () {
+      var oModel = this.getOwnerComponent().getModel();
+      oModel.refresh(true);
+    },
+
+    onReqTipoChange: function (oEvent) {
+      var oModel = this.getOwnerComponent().getModel();
+      var sTipo = oEvent.getParameter("selectedItem").getKey();
+      if (sTipo === "Combo") {
+        oModel.setProperty("/combo/req/draft/qMax", null);
+        oModel.setProperty("/combo/req/draft/vMax", null);
+      }
+    },
+
+    onBenTipoChange: function (oEvent) {
+      var oModel = this.getOwnerComponent().getModel();
+      var sTipo = oEvent.getParameter("selectedItem").getKey();
+      if (sTipo === "Prazo Extra") {
+        oModel.setProperty("/combo/ben/mult", false);
+        oModel.setProperty("/combo/ben/aplNf", false);
+        oModel.setProperty("/combo/ben/aplBol", false);
+        oModel.setProperty("/combo/ben/limVez", null);
+      }
+      if (sTipo === "Desconto Percentual" || sTipo === "Desconto Absoluto") {
+        oModel.setProperty("/combo/ben/limVez", null);
+      }
+      if (sTipo !== "Desconto Percentual" && sTipo !== "Desconto Absoluto") {
+        oModel.setProperty("/combo/ben/aplNf", false);
+        oModel.setProperty("/combo/ben/aplBol", false);
+      }
+    },
+
+    onBenMultChange: function () {
+      var oModel = this.getOwnerComponent().getModel();
+      oModel.refresh(true);
+    },
+
+    onLimVezChange: function (oEvent) {
+      var oModel = this.getOwnerComponent().getModel();
+      var sTipo = oModel.getProperty("/combo/ben/tipo");
+      var sValue = oEvent.getParameter("value");
+      if (sTipo === "Bonificação" && sValue) {
+        oModel.setProperty("/combo/ben/limMax", null);
+      }
+    },
+
+    onLimMaxChange: function (oEvent) {
+      var oModel = this.getOwnerComponent().getModel();
+      var sTipo = oModel.getProperty("/combo/ben/tipo");
+      var sValue = oEvent.getParameter("value");
+      if (sTipo === "Bonificação" && sValue) {
+        oModel.setProperty("/combo/ben/limVez", null);
+      }
+    },
 
     onAddRow: function (oEvent) {
       var oModel = this.getOwnerComponent().getModel();
@@ -89,7 +147,7 @@ sap.ui.define([
       var a = oModel.getProperty("/combo/req/especs") || [];
       a.push(oDraft);
       oModel.setProperty("/combo/req/especs", a.slice(0));
-      oModel.setProperty("/combo/req/draft", { tipo: "Marca", desc: "", qMin: null, qMax: null, vMin: null, vMax: null });
+      oModel.setProperty("/combo/req/draft", { tipo: "Material", desc: "", qMin: null, qMax: null, vMin: null, vMax: null });
       oModel.refresh(true);
     },
 
@@ -189,7 +247,7 @@ sap.ui.define([
         perm: { itens: [], excs: [] },
         req: {
           gerais: { qtdMin: null, qtdMax: null, vlrMin: null, vlrMax: null, mix: "", casad: false },
-          draft: { tipo: "Marca", desc: "", qMin: null, qMax: null, vMin: null, vMax: null },
+          draft: { tipo: "Material", desc: "", qMin: null, qMax: null, vMin: null, vMax: null },
           especs: [],
           matSel: [],
           impStr: ""
