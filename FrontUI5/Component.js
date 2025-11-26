@@ -36,7 +36,7 @@ sap.ui.define(["sap/ui/core/UIComponent", "sap/ui/model/json/JSONModel"], functi
               casad: false
             },
             draft: {
-              tipo: "Marca",
+              tipo: "Material",
               desc: "",
               qMin: null,
               qMax: null,
@@ -69,7 +69,7 @@ sap.ui.define(["sap/ui/core/UIComponent", "sap/ui/model/json/JSONModel"], functi
             "Prazo Extra"
           ],
           benAplTipos: ["Por Material", "Por Agrup.Material", "Por Fornecedor"],
-          reqTipos: ["Marca", "Linha", "Categoria", "Material", "Fornecedor"]
+          reqTipos: ["Material", "Agrup.Material", "Combo"]
         },
         combos: []
       };
